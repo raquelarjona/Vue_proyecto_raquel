@@ -26,40 +26,42 @@ const scrollToSection = (sectionId: string) => {
 
 <template>
   <div class="Batman">
-    <div class="extra-nav">
+
+    <nav class="extra-nav flex flex-col sm:flex-row justify-between px-3">
+
       <RouterLink to="/" @click="scrollToSection('#')" aria-label="Inicio">
         <House class="icon-home" />
       </RouterLink>
 
       <NavigationMenu>
-        <NavigationMenuList>
+        <NavigationMenuList class="flex flex-col sm:flex-row">
           <NavigationMenuItem>
-            <NavigationMenuLink as-child :class="navigationMenuTriggerStyle()">
+            <NavigationMenuLink as-child :class="[navigationMenuTriggerStyle(), 'text-md hover:bg-brand-purple hover:text-white transition-colors']">
               <RouterLink to="/batman" @click="scrollToSection('Portada')">Portada</RouterLink>
             </NavigationMenuLink>
           </NavigationMenuItem>
 
           <NavigationMenuItem>
-            <NavigationMenuLink as-child :class="navigationMenuTriggerStyle()">
-              <RouterLink to="/batman" @click="scrollToSection('Vehiculos')">Vehiculos</RouterLink>
+            <NavigationMenuLink as-child :class="[navigationMenuTriggerStyle(),'text-md hover:bg-brand-purple hover:text-white transition-colors']">
             </NavigationMenuLink>
+              <RouterLink to="/batman" @click="scrollToSection('Vehiculos')">Vehiculos</RouterLink>
           </NavigationMenuItem>
 
           <NavigationMenuItem>
-            <NavigationMenuLink as-child :class="navigationMenuTriggerStyle()">
+            <NavigationMenuLink as-child :class="[navigationMenuTriggerStyle(),'text-md hover:bg-brand-purple hover:text-white transition-colors']">
               <RouterLink to="/batman" @click="scrollToSection('Videos')">Videos</RouterLink>
             </NavigationMenuLink>
           </NavigationMenuItem>
 
           <NavigationMenuItem>
-            <NavigationMenuLink as-child :class="navigationMenuTriggerStyle()">
+            <NavigationMenuLink as-child :class="[navigationMenuTriggerStyle(),'text-md hover:bg-brand-purple hover:text-white transition-colors']">
               <RouterLink to="/batman" @click="scrollToSection('contactos')">Imagenes</RouterLink>
             </NavigationMenuLink>
           </NavigationMenuItem>
         </NavigationMenuList>
       </NavigationMenu>
 
-    </div>
+    </nav>
 
     <header class="titulos-img" id="Portada">
       <div class="titulos">
@@ -307,7 +309,5 @@ const scrollToSection = (sectionId: string) => {
 .noticia {
     width: 90%;
 }
-
-
 
 </style>
