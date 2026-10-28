@@ -1,13 +1,58 @@
 
 <script setup lang="ts">
+NavigatorPrimarius
 import { House } from '@lucide/vue'
-import {
-  NavigationMenu,
-  NavigationMenuItem,
-  NavigationMenuLink,
-  NavigationMenuList,
-  navigationMenuTriggerStyle,
-} from '@/components/ui/navigation-menu'
+
+import { useMouseMotio } from '@/composables/useMouseMotio'
+import { onMounted, onUnmounted, ref } from 'vue'
+import NavigatorPrimarius from '@/components/components/navigatorPrimarius.vue';
+
+const { cumMouseMove, cumMouseLeave } = useMouseMotio()
+
+const menuItems =[
+{
+  Label: 'Portada',
+  href: "#",
+  onclick: ()=> scrollToSection ('#')
+},
+  {
+    Label: 'Vehiculos',
+    href: '#vehiculis',
+    onclick: ()=> scrollToSection('vehiculis')
+  },
+  {
+   Label: 'Imagenes',
+    href: '#imagenes',
+    onclick: ()=> scrollToSection('imagenes')
+  },
+  {
+   Label: 'contacto',
+    href: '#contactus',
+    onclick: ()=> scrollToSection('contactus')
+  }
+]
+
+const archivos = import.meta.glob(
+  '/src/assets/Batman/*.{jpg,jpeg,png,webp}',
+  {
+    eager: true,
+    query: '?url',
+    import: 'default'
+  }
+)
+
+const imagenes = Object.values(archivos) as string[]
+
+const imagenActual = ref(0)
+
+const siguienteImagen = () => {
+  imagenActual.value = (imagenActual.value + 1) % imagenes.length
+}
+
+const anteriorImagen = () => {
+  imagenActual.value =
+    (imagenActual.value - 1 + imagenes.length) % imagenes.length
+}
 
 const scrollToSection = (sectionId: string) => {
   if (sectionId === '#') {
@@ -22,10 +67,30 @@ const scrollToSection = (sectionId: string) => {
   }
 };
 
+const handleResize = () => {
+  window.scrollTo({
+    top: 0,
+    behavior: 'smooth'
+  })
+}
+
+
+onMounted(() => {
+  handleResize()
+  window.addEventListener ('resize',handleResize)
+})
+
+onUnmounted(() => {
+  window.removeEventListener('resize', handleResize)
+})
+
+
 </script>
 
 <template>
   <div class="Batman">
+    <Naviga
+    tionPrimarius :items="menuItems" homeRoute="/"/>
 
     <nav class="extra-nav flex flex-col sm:flex-row justify-between px-3">
 
@@ -33,38 +98,22 @@ const scrollToSection = (sectionId: string) => {
         <House class="icon-home" />
       </RouterLink>
 
-      <NavigationMenu>
-        <NavigationMenuList class="flex flex-col sm:flex-row">
-          <NavigationMenuItem>
-            <NavigationMenuLink as-child :class="[navigationMenuTriggerStyle(), 'text-md hover:bg-brand-purple hover:text-white transition-colors']">
-              <RouterLink to="/batman" @click="scrollToSection('Portada')">Portada</RouterLink>
-            </NavigationMenuLink>
-          </NavigationMenuItem>
-
-          <NavigationMenuItem>
-            <NavigationMenuLink as-child :class="[navigationMenuTriggerStyle(),'text-md hover:bg-brand-purple hover:text-white transition-colors']">
-            </NavigationMenuLink>
-              <RouterLink to="/batman" @click="scrollToSection('Vehiculos')">Vehiculos</RouterLink>
-          </NavigationMenuItem>
-
-          <NavigationMenuItem>
-            <NavigationMenuLink as-child :class="[navigationMenuTriggerStyle(),'text-md hover:bg-brand-purple hover:text-white transition-colors']">
-              <RouterLink to="/batman" @click="scrollToSection('Videos')">Videos</RouterLink>
-            </NavigationMenuLink>
-          </NavigationMenuItem>
-
-          <NavigationMenuItem>
-            <NavigationMenuLink as-child :class="[navigationMenuTriggerStyle(),'text-md hover:bg-brand-purple hover:text-white transition-colors']">
-              <RouterLink to="/batman" @click="scrollToSection('contactos')">Imagenes</RouterLink>
-            </NavigationMenuLink>
-          </NavigationMenuItem>
-        </NavigationMenuList>
-      </NavigationMenu>
-
+      
     </nav>
 
     <header class="titulos-img" id="Portada">
       <div class="titulos">
+        <div
+        @mousemov="cumMouseMove"
+        @mouseleave="cumMouseLeave"
+        :style="{
+          backgroundPositionX: `calc(50% + $ (mousePositione.x)px)`,
+          backgroundPositionY: `calc(50% + $ (mousePositione.y)px)`,
+          transition: 'background-position 0,1s ease-out'
+        }
+        "
+        </div>
+
         <h1>Batman</h1>
         <p>El puede tomar la decisión que nadie más puede, la decisión correcta</p>
       </div>
@@ -81,7 +130,7 @@ const scrollToSection = (sectionId: string) => {
           <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed vehicula vulputate elit eget fermentum. Ut laoreet ante lacus. Quisque ut tincidunt metus. Curabitur congue, arcu nec tempus sodales, neque sem ultrices mauris, eu tincidunt nibh nibh eu massa. Aenean rhoncus quis nibh ac facilisis.</p>
           <small>Fabricado en 2005</small>
         </div>
-        <img src="/imagenes/Batman/avion.jpg"/>
+        <img src="/src/assets/Batman/avion.jpg" alt="Automóvil asociado a Batman, presentado en una sección dedicada a sus vehículos." />
       </div>
 
       <div class="item duo">
@@ -90,7 +139,7 @@ const scrollToSection = (sectionId: string) => {
           <p>Nulla aliquip cupidatat voluptate veniam nostrud aliquip sit enim officia. Sit eu pariatur officia qui dolor adipisicing cupidatat. Sit consectetur et eu ut esse laboris nulla.</p>
           <small>Fabricado en 2006</small>
         </div>
-        <img src="/imagenes/Batman/moto.jpg"/>
+        <img src="/src/assets/Batman/moto.jpg" alt="Motocicleta asociada a Batman, presentada en una sección dedicada a sus vehículos." />
       </div>
       
       <div class="item tribus">
@@ -99,11 +148,20 @@ const scrollToSection = (sectionId: string) => {
           <p>Irure adipisicing est minim eu ad dolor. Eu ea commodo pariatur ut occaecat in cupidatat reprehenderit ut laborum duis. Sunt minim ex fugiat reprehenderit. Lorem consectetur reprehenderit commodo non</p>
           <small>Fabricado en 2007</small>
         </div>
-        <img src="/imagenes/Batman/car.jpg"/>
+        <img src="/src/assets/Batman/car.jpg" alt="Automóvil asociado a Batman, presentado en una sección dedicada a sus vehículos." />
       </div>
     </div>
 
  </section>
+
+  <section id="imagenes" class="galeria" v-if="imagenes.length">
+    <h2>Imágenes de Batman</h2>
+    <div class="galeria-controles">
+      <button type="button" @click="anteriorImagen" aria-label="Imagen anterior">Anterior</button>
+      <img :src="imagenes[imagenActual]" alt="Imagen seleccionada de la galería de Batman; el contenido visual cambia al avanzar o retroceder." />
+      <button type="button" @click="siguienteImagen" aria-label="Imagen siguiente">Siguiente</button>
+    </div>
+  </section>
 
   </div>
 </template>
@@ -115,6 +173,24 @@ const scrollToSection = (sectionId: string) => {
   flex-direction: column;     /* colócalos uno debajo de otro */
 }
 
+.galeria {
+  padding: 2rem 1rem;
+  text-align: center;
+}
+
+.galeria-controles {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+}
+
+.galeria-controles img {
+  max-width: min(70%, 600px);
+  max-height: 400px;
+  object-fit: contain;
+}
+
 @font-face {
   font-family: "Batman";
   src: url("/imagenes/fonts/batmfo__.ttf") format("truetype");
@@ -123,27 +199,6 @@ const scrollToSection = (sectionId: string) => {
   font-family: Arial, Helvetica, sans-serif;
 }
 
-.icon-home{
-    width: 3rem;
-    height: 3rem;
-    color: slateblue;
-}
-
-.icon-home:hover{
-    color: white;
-    background-color: slateblue;
-}
-
-.extra-nav {
-  background-color: white;
-  opacity: 0.7;
-  box-shadow: rgba(0, 0, 0, 0.7);
-  position: fixed;
-  top: 0;
-  width: 11rem;
-  border-radius: 0 0 1rem 0;
-  z-index: 1;
-}
 
 @media (min-width: 640px){
   .extra-nav {
@@ -156,11 +211,12 @@ const scrollToSection = (sectionId: string) => {
 
 .titulos-img {
   position: relative;
-  background-image: url("/imagenes/Batman/batman.jpg");
+  background-image: url("../../assets/Batman/batman.jpg");
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
   min-height: 80vh;
+  aspect-ratio: 8/7;
 }
 
 .titulos-img:hover {
@@ -169,7 +225,7 @@ const scrollToSection = (sectionId: string) => {
 
 .titulos > h1 {
   position: absolute;
-  top: 63%;
+  top: calc(100vw * 0.5);
   width: 100%;
   text-align: center;
   font-size: 5rem; 

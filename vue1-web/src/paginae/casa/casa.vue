@@ -8,8 +8,7 @@ import Button from '@/components/ui/button/Button.vue';
 <template>
   <div class="bg-domus-navy h-screen text-white font-sans text-center flex flex-col items-center justify-center gap-12 fixed  w-screen overflow-hidden " >
 
-    <img  class="absolute opacity-50" src="/public/tonitrui.png"/>
-
+    <img class="absolute opacity-50" src="/tonitrui.png"/>
     <h1 class="text-5xl md:text-7xl lg:text-8xl font-black pb-5 md:pb-20 z-10 transition-all  ">
         <span class="text-domus-cyan">Diseño</span> Web y 
         <br />
