@@ -1,8 +1,8 @@
 
 <script setup lang="ts">
 NavigatorPrimarius
-import { House, Loader2 } from '@lucide/vue'
-
+import { House, Loader2, LucideBadgeCheck } from '@lucide/vue'
+import { Phone, Mail, MapPin } from '@lucide/vue'
 import { useMouseMotio } from '@/composables/useMouseMotio'
 import { onMounted, onUnmounted, ref } from 'vue'
 import NavigatorPrimarius from '@/components/components/navigatorPrimarius.vue';
@@ -21,8 +21,9 @@ import {
 } from '@/components/ui/popover'
 import { Button } from '@/components/ui/button'
 import { Calendar } from '@/components/ui/calendar'
-
+import { Icon } from '@iconify/vue'
 import type { DateValue } from 'reka-ui/date';
+import { toast } from 'vue-sonner'
 const nomen = ref<string>('')
 const cognomen = ref<string>('')
 const estLoading = ref<boolean>(false)
@@ -54,6 +55,23 @@ const menuItems =[
 ]
 const mittereSubmit = async () => {
   estLoading.value = true;
+  
+  toast(`Solicitud enviada con éxito
+  - Nombre: ${nomen.value}
+  - Apellidos: ${cognomen.value}
+  - Misión: ${missione.value}
+  - Fecha: ${dies.value ? `${dies.value.day}/${dies.value.month}/${dies.value.year}` : 'No especificada'}`, {
+    duration: 4000,
+    position: 'top-right',
+    icon: LucideBadgeCheck,
+    style: {
+      background: '#201c3b',
+      color: '#ffffff',
+      whiteSpace: 'pre-line',
+      
+    },
+  });
+
   await new Promise((resolve) => setTimeout(resolve, 2000)) // Envio de datos
   estLoading.value = false;
   console.log('Formulario enviado:', {
@@ -124,8 +142,7 @@ onUnmounted(() => {
 
 <template>
   <div class="Batman">
-    <Naviga
-    tionPrimarius :items="menuItems" homeRoute="/"/>
+    <NavigationPrimarius :items="menuItems" homeRoute="/"/>
 
     <nav class="extra-nav flex flex-col sm:flex-row justify-between px-3">
 
@@ -307,17 +324,17 @@ onUnmounted(() => {
             
         <div class="space-y-2">
           <p class="flex items-center gap-2 justify-center md:justify-start">
-
+            <Phone class="w-5 h-5" />
             +1 (555) 123-4567
 
           </p>
           <p class="flex items-center gap-2 justify-center md:justify-start">
-
+            <Mail class="w-5 h-5" />
             batman@wayneenterprises.com
 
           </p>
           <p class="flex items-center gap-2 justify-center md:justify-start">
-
+            <MapPin class="w-5 h-5" />
             Wayne Manor, Gotham City
 
           </p>
@@ -329,10 +346,10 @@ onUnmounted(() => {
         <h3 class="text-xl font-bold text-white">Síguenos</h3>
         <div class="flex gap-8 justify-center">
         
-          Icono de X -
-          Icono de Instagram -
-          Icono de Linkedin - 
-          Icono de MessageCircle
+          <X class="w-10 h-10 hover:text-white" />
+          <Icon icon="mdi:instagram" class="w-10 h-10 hover:text-white transition-colors" />
+          <Icon icon="mdi:linkedin" class="w-10 h-10 hover:text-white transition-colors" />
+          <Icon icon="mdi:message-circle" class="w-10 h-10 hover:text-white transition-colors" />
               
         </div>
     </div>
