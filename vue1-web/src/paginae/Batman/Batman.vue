@@ -1,7 +1,7 @@
 
 <script setup lang="ts">
 NavigatorPrimarius
-import { House } from '@lucide/vue'
+import { House, Loader2 } from '@lucide/vue'
 
 import { useMouseMotio } from '@/composables/useMouseMotio'
 import { onMounted, onUnmounted, ref } from 'vue'
@@ -23,7 +23,10 @@ import { Button } from '@/components/ui/button'
 import { Calendar } from '@/components/ui/calendar'
 
 import type { DateValue } from 'reka-ui/date';
-
+const nomen = ref<string>('')
+const cognomen = ref<string>('')
+const estLoading = ref<boolean>(false)
+const missione = ref<string>('')  
 const dies = ref<DateValue>()
 const { cumMouseMove, cumMouseLeave } = useMouseMotio()
 
@@ -49,6 +52,20 @@ const menuItems =[
     onclick: ()=> scrollToSection('contactus')
   }
 ]
+const mittereSubmit = async () => {
+  estLoading.value = true;
+  await new Promise((resolve) => setTimeout(resolve, 2000)) // Envio de datos
+  estLoading.value = false;
+  console.log('Formulario enviado:', {
+    nomen: nomen.value,
+    cognomen: cognomen.value,
+    missione: missione.value,
+    dies: dies.value,
+  });
+  nomen.value = ''
+  cognomen.value = ''
+  missione.value = ''
+};
 
 const archivos = import.meta.glob(
   '/src/assets/Batman/*.{jpg,jpeg,png,webp}',
@@ -205,18 +222,19 @@ onUnmounted(() => {
 
             <!-- Formulario -->
       <div class="w-full max-w-md mx-auto lg:max-w-none lg:w-1/2 ">
-        <form  class="space-y-6 bg-white p-8 rounded-lg shadow-lg aspect-square">
+
+        <form  
+        class="space-y-6 bg-white p-8 rounded-lg shadow-lg aspect-square" @submit.prevent="mittereSubmit">
           <div class="space-y-2">
              <Label for="nomen">Nombre</Label>
-             <input id="nomen" name="email" type="email" class="w-full rounded-md border px-3 py-2" />
-            
+             <input id="nomen" required v-model="nomen" type="text" class="w-full rounded-md border px-3 py-2" />
 
           </div>
                 
           <div class="space-y-2">
               
             <Label for="cognomen">Apellidos</Label>
-            <input id="cognomen" name="email" type="email" class="w-full rounded-md border px-3 py-2" />
+            <input id="cognomen" required v-model="cognomen" type="text" class="w-full rounded-md border px-3 py-2" />
             
 
           </div>
@@ -270,7 +288,10 @@ onUnmounted(() => {
 
           </div>
 
-          <Button type="submit">Enviar solicitud</Button>
+          <Button type="submit"class="w-full bg-brand-purple hover:bg-brand-purple-dark" :disabled="estLoading">
+            <Loader2 v-if="estLoading" class="mr-2 h-4 w-4 animate-spin" />
+            {{ estLoading ? 'Enviando...' : 'Enviar solicitud' }}
+          </Button>
         </form>
       </div>
     </div>
