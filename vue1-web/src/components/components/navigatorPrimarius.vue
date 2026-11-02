@@ -67,6 +67,7 @@ function scrollToSection(section: string) {
 
         <NavigationMenu>
         <NavigationMenuList class="flex flex-col sm:flex-row">
+ 
           <NavigationMenuItem v-for="item in items" :key="item.label">
             <a
             :about="item.href"
