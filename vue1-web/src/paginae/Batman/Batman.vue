@@ -14,8 +14,17 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select'
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from '@/components/ui/popover'
+import { Button } from '@/components/ui/button'
+import { Calendar } from '@/components/ui/calendar'
 
+import type { DateValue } from 'reka-ui/date';
 
+const dies = ref<DateValue>()
 const { cumMouseMove, cumMouseLeave } = useMouseMotio()
 
 const menuItems =[
@@ -214,25 +223,22 @@ onUnmounted(() => {
 
           <div class="space-y-2">
 
-              <Select>
+              <Select required>
                  <SelectTrigger>
-                   <SelectValue placeholder="Select a fruit" />
+                   <SelectValue placeholder="Seleciona una mision" />
                  </SelectTrigger>
                 <SelectContent>
-                    <SelectItem value="apple">
-                    Apple
+                    <SelectItem value="rescatare">
+                    Rescatar a rehenes
                 </SelectItem>
-                <SelectItem value="banana">
-                   Banana
+                <SelectItem value="investigare">
+                   Investigar a criminales
                 </SelectItem>
-                <SelectItem value="blueberry">
-                    Blueberry
+                <SelectItem value="persequi">
+                    Perseguir a villanos
                 </SelectItem>
-                <SelectItem value="grapes">
-                    Grapes
-                </SelectItem>
-                <SelectItem value="pineapple">
-                    Pineapple
+                <SelectItem value="defendere">
+                    Defender a Gotham
                 </SelectItem>
                 </SelectContent>
               </Select>
@@ -241,12 +247,30 @@ onUnmounted(() => {
 
           <div class="space-y-2">
 
-            Poner un calendario para la fecha de la misión
+            <Label>Fecha de la misión</Label>
+            <Popover>
+            <PopoverTrigger asChild>
+              <Button variant="outline" class="w-full justify-between">
+                <span>
+                  
+                  <span v-if="dies">
+                    {{ dies.day }}/{{ dies.month }}/{{ dies.year }}
+                  </span>
+                  <span v-else class="text-gray-400">
+                    Selecciona una fecha
+                  </span>
+                </span>
+               
+              </Button>
+            </PopoverTrigger>
+            <PopoverContent class="w-auto p-0" align="start">  
+              <Calendar v-model="dies"/>
+            </PopoverContent>
+            </Popover>
 
           </div>
 
-          Poner un botón para enviar la solicitud
-              
+          <Button type="submit">Enviar solicitud</Button>
         </form>
       </div>
     </div>
