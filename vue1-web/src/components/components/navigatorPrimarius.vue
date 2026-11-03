@@ -1,6 +1,7 @@
 
-
 <script setup lang="ts">
+import { useRouter } from 'vue-router'
+const router = useRouter()
 import {
   NavigationMenu,
   NavigationMenuItem,
@@ -24,7 +25,6 @@ homeRoute: '/',
 })
 
 const videreMenu = ref<boolean>(true)
-
 
 
     const handleResize = () => {
@@ -53,6 +53,13 @@ function scrollToSection(section: string) {
 
 <template>
     <div>
+      <template>
+         <div>
+          <RouterLink to="/Batman">Batman</RouterLink>
+          <RouterLink to="/simson">Simson</RouterLink>
+          <RouterLink to="/respuesta">Respuesta</RouterLink>
+          </div>
+        </template>
          <Toggle
             class="fixed top-2 right-4 z-50 bg-slate-500 sm:hidden"
             @click="videreMenu = !videreMenu"

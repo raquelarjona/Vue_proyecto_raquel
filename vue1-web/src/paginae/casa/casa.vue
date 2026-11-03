@@ -21,7 +21,7 @@ import Button from '@/components/ui/button/Button.vue';
 
     <div class="scale-z-10">
         <Button variant="domus" class="mr-2">
-            <RouterLink to="/indecision">Si o No</RouterLink>
+            <RouterLink to="/respuesta">Si o No</RouterLink>
         </Button>
 
      <Button variant="domus" class="mr-2">

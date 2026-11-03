@@ -7,6 +7,8 @@ import { useMouseMotio } from '@/composables/useMouseMotio'
 import { onMounted, onUnmounted, ref } from 'vue'
 import NavigatorPrimarius from '@/components/components/navigatorPrimarius.vue';
 import { Label } from '@/components/ui/label'
+import { useRouter } from 'vue-router'
+const router = useRouter()
 import {
   Select,
   SelectContent,
@@ -38,21 +40,29 @@ const menuItems =[
   onclick: ()=> scrollToSection ('#')
 },
   {
-    Label: 'Vehiculos',
+    label: 'Vehiculos',
     href: '#vehiculis',
-    onclick: ()=> scrollToSection('vehiculis')
+    onClick: ()=> scrollToSection('vehiculis')
   },
   {
-   Label: 'Imagenes',
+   label: 'Imagenes',
     href: '#imagenes',
-    onclick: ()=> scrollToSection('imagenes')
+    onClick: ()=> scrollToSection('imagenes')
   },
   {
-   Label: 'contacto',
+   label: 'contacto',
     href: '#contactus',
-    onclick: ()=> scrollToSection('contactus')
+    onClick: ()=> scrollToSection('contactus')
   }
+    ,
+  {
+    label: 'Respuesta',
+    href: '/respuesta',
+    onClick: () => router.push('/respuesta'),
+  },
 ]
+
+
 const mittereSubmit = async () => {
   estLoading.value = true;
   

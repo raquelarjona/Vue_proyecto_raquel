@@ -1,5 +1,5 @@
-import { createRouter, createWebHashHistory } from "vue-router";
-
+import { createRouter, createWebHashHistory, createWebHistory } from "vue-router";
+import Respuesta from '../paginae/respuesta/respuesta.vue'
 
 export const router = createRouter({
     history: createWebHashHistory(import.meta.env.BASE_URL),
@@ -26,3 +26,6 @@ export const router = createRouter({
         }
     ]
 });
+
+export default router
+
