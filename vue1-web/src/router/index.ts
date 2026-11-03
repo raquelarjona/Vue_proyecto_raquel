@@ -14,7 +14,7 @@ export const router = createRouter({
         },
         {
             path: "/simson",
-            component: () => import("../paginae/simson/simson.vue")
+            component: () => import("../paginae/simson/Primus.vue")
         },
         {
             path: "/respuesta",
