@@ -20,7 +20,7 @@ import Button from '@/components/ui/button/Button.vue';
                 <RouterLink to="/">Exit</RouterLink>
             </Button>
             <Button variant="tertiarius" size="elongatis">
-                <RouterLink to="/simson/gallery">Enter</RouterLink>
+                <RouterLink to="/simson/about">Enter</RouterLink>
             </Button>
         </div>
 
