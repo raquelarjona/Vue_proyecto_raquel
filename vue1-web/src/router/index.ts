@@ -17,6 +17,18 @@ export const router = createRouter({
             component: () => import("../paginae/simson/Primus.vue")
         },
         {
+             path: "/simson/collectione/:id",
+            component: () => import("../paginae/simson/collectione.vue")
+        },
+        {
+            path: "/simson/character/:id",
+            component: () => import("../paginae/simson/character.vue")
+        },
+        {
+            path: "/simson/circa/:id",
+            component: () => import("../paginae/simson/circa.vue")
+        },
+        {
             path: "/respuesta",
             component: () => import("../paginae/respuesta/respuesta.vue")
         },
