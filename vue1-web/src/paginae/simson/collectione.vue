@@ -1,10 +1,29 @@
 
 <script setup lang="ts">
 import { Card, CardContent,} from '@/components/ui/card'
-import { ref } from 'vue';
+import { computed, ref } from 'vue';
 import { characters } from './data';
 
-const ListaSimpsons = ref( characters.slice(0, 6));
+const inPagina = 6
+
+const nuncPagina = ref(1)
+
+const totalPaginas = Math.ceil(characters.length / inPagina)
+
+const ListaSimpsons = computed(() => {
+    const initIndex = (nuncPagina.value - 1) * inPagina
+    const endIndex = initIndex + inPagina
+    return characters.slice(initIndex, endIndex)
+})
+
+const ireAdPagina = (pagina: number) => {
+    if (pagina >= 1 && pagina <= totalPaginas) {
+        nuncPagina.value = pagina
+    }
+}
+
+const paginaNumeros : number[] = [...Array(totalPaginas)].map((_, index) => index + 1)
+
 </script>
 
 <template>
@@ -25,11 +44,43 @@ const ListaSimpsons = ref( characters.slice(0, 6));
             </CardContent>
          </Card>
 
-          
-
-          
     </div>
+        <div class="flex items-center justify-center gap-2 mt-4">
+        <button
+            @click="ireAdPagina(nuncPagina - 1)"
+            :disabled="nuncPagina ===1"
+            class="[px-4 py-2 rounded-md font-medium transition-colors]"
+            :class="[
+                nuncPagina === 1 ? 'bg-gray-200 text-gray-400 cursor-not-allowed' 
+                : 'bg-simpsons-yellow hover:bg-simpsons-red hover:text-white'
+            ]"
+            
+        >
+            Anterior
+        </button>
 
+        <button
+            
+        v-for="pagina in paginaNumeros"
+            :key="pagina"
+            @click="ireAdPagina(nuncPagina + 1)"
+            :disabled="nuncPagina ===totalPaginas"
+             :class="[
+                nuncPagina === totalPaginas ? 'bg-gray-200 text-gray-400 cursor-not-allowed' 
+                : 'bg-simpsons-yellow hover:bg-simpsons-red hover:text-white'
+            ]"
+
+        >
+            {{ pagina }}
+        </button>
+
+        <button
+            class="px-4 py-2 rounded-md font-medium transition-colors bg-simpsons-yellow hover:bg-simpsons-red hover:text-white"
+            @click="ireAdPagina(nuncPagina + 1)"
+        >
+            Siguiente
+        </button>
+        </div>
 
     </div>
 </template>
